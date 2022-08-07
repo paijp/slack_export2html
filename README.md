@@ -4,3 +4,4 @@
 - If the file is available, it will be downloaded automatically.
 - Text modification is not supported.
 
+- On the commandline, type 'php slack_export2html.php'.
