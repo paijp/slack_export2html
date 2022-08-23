@@ -1,4 +1,10 @@
 <?php
+#	slack_export2html	https://github.com/paijp/slack_export2html
+#
+#	Copyright (c) 2022 paijp
+#
+#	This software is released under the Apache 2.0 license.
+#	http://www.apache.org/licenses/
 
 if (@$srcdir === null)
 	$srcdir = "export/";
