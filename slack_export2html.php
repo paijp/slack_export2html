@@ -39,6 +39,18 @@ foreach ($channels as $a)
 #print_r($channellist);
 
 
+$now = time();
+
+function	put_file($fn, $s, $flag = 0)
+{
+	global	$now;
+	
+	if (is_file($fn))
+		copy($fn, $fn."_".date("ymd_His", $now));
+	return file_put_contents($fn, $s, $flag);
+}
+
+
 function	escapetext($text)
 {
 	global	$userlist;
@@ -84,7 +96,7 @@ foreach ($channellist as $channelname)
 	$s .= '<li><a href="'.bin2hex($channelname).'.html">'.htmlspecialchars($channelname)."</a>\n";
 $s .= "</ul>\n\n";
 
-file_put_contents("{$dstdir}/index.html", $s, FILE_APPEND);
+put_file("{$dstdir}/index.html", $s, FILE_APPEND);
 
 foreach ($channellist as $channelname) {
 	fprintf(STDERR, "channel(%s)\n", htmlspecialchars($channelname));
@@ -116,7 +128,7 @@ foreach ($channellist as $channelname) {
 					if ($s == "")
 						continue;
 					$hash = sha1($s);
-					file_put_contents("{$dstdir}/{$hash}", $s);
+					put_file("{$dstdir}/{$hash}", $s);
 					
 					if (!preg_match('!^https?://files.slack.com/!', $url = @$obj->thumb_480))
 						;		# avoid local file access like '/etc/passwd'.
@@ -124,7 +136,7 @@ foreach ($channellist as $channelname) {
 						$s = file_get_contents($url);
 						sleep(2);
 						if ($s != "") {
-							file_put_contents("{$dstdir}/{$hash}.".$a[1], $s);
+							put_file("{$dstdir}/{$hash}.".$a[1], $s);
 							$out .= '<li><a href="'.$hash.'" type="';
 							$out .= htmlspecialchars(@$obj->mimetype, ENT_QUOTES).'" download="';
 							$out .= htmlspecialchars(@$obj->name, ENT_QUOTES).'">';
@@ -159,7 +171,7 @@ foreach ($channellist as $channelname) {
 		
 	}
 	$out .= "<hr />\n";
-	file_put_contents("{$dstdir}/".bin2hex($channelname).".html", $out, FILE_APPEND);
+	put_file("{$dstdir}/".bin2hex($channelname).".html", $out, FILE_APPEND);
 #print $out;
 #die();
 	
