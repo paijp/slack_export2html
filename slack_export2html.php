@@ -6,9 +6,18 @@
 #	This software is released under the Apache 2.0 license.
 #	http://www.apache.org/licenses/
 
-if (@$srcdir === null)
+if (@$srcdir !== null)
+	;
+else if (($srcdir = @$argv[1]) != "")
+	;
+else
 	$srcdir = "export/";
-if (@$dstdir === null)
+
+if (@$dstdir !== null)
+	;
+else if (($dstdir = @$argv[2]) != "")
+	;
+else
 	$dstdir = "html/";
 
 date_default_timezone_set($tz = "UTC");
